@@ -2,8 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:money_management/database/category.dart';
+import 'package:money_management/models/category.dart';
 import 'package:money_management/screens/BottomNavigation/bottomNavigation.dart';
 import 'package:money_management/screens/category/category.dart';
+import 'package:money_management/screens/category/category_add.dart';
 import 'package:money_management/screens/transactions/transactions.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -35,7 +38,6 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Center(
-       
           child: ValueListenableBuilder(
         valueListenable: selectedIndex,
         builder: (BuildContext context, int updatedIndex, _) {
@@ -45,11 +47,15 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (selectedIndex.value == 0) {
-         
             print("transatuions");
           } else {
-            
-            print("category");
+            print("category list");
+
+            openDilougeBox(context);
+            // final _sample =
+            //     CategoryModel(
+            //      uid: DateTime.now().millisecondsSinceEpoch.toString(), name: 'travel', type: 'income',isDeleted: false);
+            // CategoryDB().insertCategory(_sample);
           }
         },
         child: Icon(Icons.add),

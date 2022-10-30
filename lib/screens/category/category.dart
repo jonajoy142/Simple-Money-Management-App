@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:money_management/database/category.dart';
 import 'package:money_management/screens/category/expence_list.dart';
 import 'package:money_management/screens/category/income_list.dart';
 
@@ -24,6 +25,10 @@ class _CategoryScreenState extends State<CategoryScreen>
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    CategoryDB().getCategories().then((value) {
+      print("category list");
+      print(value.toString());
+    });
     super.initState();
   }
 
@@ -33,24 +38,22 @@ class _CategoryScreenState extends State<CategoryScreen>
       // ignore: prefer_const_literals_to_create_immutables
       children: [
         TabBar(
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey,
-          controller: _tabController,
-          tabs: const [
-          Tab(
-            text: 'Income',
-          ),
-          Tab(
-            text: 'Expence',
-          ),
-        ]),
-        Expanded(
-          child: TabBarView(
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey,
             controller: _tabController,
-            children: const[
-              IncomeList(),
-              ExpenseList(),
+            tabs: const [
+              Tab(
+                text: 'Income',
+              ),
+              Tab(
+                text: 'Expence',
+              ),
             ]),
+        Expanded(
+          child: TabBarView(controller: _tabController, children: const [
+            IncomeList(),
+            ExpenseList(),
+          ]),
         )
       ],
     );
