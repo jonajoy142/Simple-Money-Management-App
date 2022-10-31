@@ -1,13 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:money_management/database/category.dart';
 import 'package:money_management/firebase_options.dart';
 import 'package:money_management/screens/Home/homeScreen.dart';
 
 void main() async {
+  final obj1 = CategoryDB();
+  final obj2 = CategoryDB();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
   runApp(const MyApp());
 }
 
@@ -20,11 +23,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-    
         primarySwatch: Colors.blueGrey,
       ),
-      home:   HomeScreen(title: 'Money Management App'),
+      home: HomeScreen(title: 'Money Management App'),
     );
   }
 }
-

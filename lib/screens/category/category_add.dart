@@ -1,27 +1,34 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
+import 'package:money_management/database/category.dart';
+import 'package:money_management/models/category.dart';
 
 ValueNotifier<String> selectedIndex = ValueNotifier('Income');
+TextEditingController _nameController = TextEditingController();
+// TextEditingController _genderController = TextEditingController();
+// TextEditingController _scoreController = TextEditingController();
 Future<void> openDilougeBox(BuildContext context) {
   return showDialog(
       context: context,
-      builder: (context) {
+      builder: (ctx) {
         return AlertDialog(
           title: Text('Add Category'),
           content: Container(
             height: 160,
             child: Column(
-              children:  [
-             const Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: const  TextField(
-                    // controller: _nameController,
-                    decoration: InputDecoration(hintText: 'Category Name',border: OutlineInputBorder()),
-                  
-                  ),
-              ),
+              children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  
+                  child: TextField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                        hintText: 'Category Name',
+                        border: OutlineInputBorder()),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
                       RaadioButton(type: 'Income', title: 'Income'),
@@ -29,15 +36,19 @@ Future<void> openDilougeBox(BuildContext context) {
                     ],
                   ),
                 ),
-                
               ],
             ),
           ),
           actions: [
             ElevatedButton(
                 onPressed: () {
-                  // submit(context);
-                  // Navigator.of(context).pop(context);
+                  final _name = _nameController.text;
+                  final _category = CategoryModel(
+                      type: selectedIndex.value,
+                      name: _name,
+                      uid: DateTime.now().microsecondsSinceEpoch.toString());
+                  CategoryDB.instance.insertCategory(_category);
+                  Navigator.of(ctx).pop();
                   // print(userId);
                 },
                 child: Text('Submit')),
@@ -63,7 +74,7 @@ class RaadioButton extends StatelessWidget {
       children: [
         ValueListenableBuilder(
             valueListenable: selectedIndex,
-            builder: ((BuildContext context , String newCat, _) {
+            builder: ((BuildContext context, String newCat, _) {
               return Radio<String>(
                   value: type,
                   groupValue: selectedIndex.value,
@@ -71,12 +82,9 @@ class RaadioButton extends StatelessWidget {
                     if (value == null) return;
                     selectedIndex.value = value;
                     selectedIndex.notifyListeners();
-                     
                   }));
-             
             })),
-            Text(title)
-            
+        Text(title)
       ],
     );
   }
