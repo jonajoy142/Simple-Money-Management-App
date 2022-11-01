@@ -19,6 +19,9 @@ class HomeScreen extends StatelessWidget {
     TransactionScreen(title: "TRANSACTION PAGE "),
     CategoryScreen(title: "CATEGORY PAGE ")
   ];
+  
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

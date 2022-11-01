@@ -49,12 +49,14 @@ Future<void> openDilougeBox(BuildContext context) {
                       uid: DateTime.now().microsecondsSinceEpoch.toString());
                   CategoryDB.instance.insertCategory(_category);
                   Navigator.of(ctx).pop();
+                  _nameController.clear();
                   // print(userId);
                 },
                 child: Text('Submit')),
             ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop(context);
+                  
                 },
                 child: Text('Cancel'))
           ],

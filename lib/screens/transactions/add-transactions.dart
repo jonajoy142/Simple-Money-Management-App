@@ -20,6 +20,7 @@ class _AddTransactionsState extends State<AddTransactions> {
   String? _selectedcatType;
   CategoryModel? _selectedCategory;
   TextEditingController dateinput = TextEditingController();
+  String? _categoryId;
 
   ValueNotifier<String> selectedIndex = ValueNotifier('Income');
   TextEditingController _nameController = TextEditingController();
@@ -114,8 +115,9 @@ class _AddTransactionsState extends State<AddTransactions> {
                             value: 'Income',
                             groupValue: _selectedcatType,
                             onChanged: (newValue) {
-                               setState(() {
+                              setState(() {
                                 _selectedcatType = 'Income';
+                                _categoryId = null;
                               });
                             }),
                         Text('Income')
@@ -129,6 +131,7 @@ class _AddTransactionsState extends State<AddTransactions> {
                             onChanged: (newValue) {
                               setState(() {
                                 _selectedcatType = 'Expense';
+                                _categoryId = null;
                               });
                             }),
                         Text('Expense')
@@ -138,13 +141,22 @@ class _AddTransactionsState extends State<AddTransactions> {
                 ),
                 DropdownButton<String>(
                     hint: Text('Select Category'),
-                    items:(_selectedcatType=='Income'?CategoryDB().incomeList:CategoryDB().expenseList) .value.map((e) {
+                    value: _categoryId,
+                    items: (_selectedcatType == 'Income'
+                            ? CategoryDB().incomeList
+                            : CategoryDB().expenseList)
+                        .value
+                        .map((e) {
                       return DropdownMenuItem(
                         child: Text(e.name),
                         value: e.uid,
                       );
                     }).toList(),
-                    onChanged: (selectedValue) {}),
+                    onChanged: (selectedValue) {
+                      setState(() {
+                        _categoryId = selectedValue;
+                      });
+                    }),
                 SizedBox(
                   height: 20,
                 ),
