@@ -7,6 +7,7 @@ import 'package:money_management/models/category.dart';
 import 'package:money_management/screens/BottomNavigation/bottomNavigation.dart';
 import 'package:money_management/screens/category/category.dart';
 import 'package:money_management/screens/category/category_add.dart';
+import 'package:money_management/screens/transactions/add-transactions.dart';
 import 'package:money_management/screens/transactions/transactions.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -48,6 +49,7 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           if (selectedIndex.value == 0) {
             print("transatuions");
+            Navigator.of(context).pushNamed(AddTransactions.routeName);
           } else {
             print("category list");
 

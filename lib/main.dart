@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:money_management/database/category.dart';
 import 'package:money_management/firebase_options.dart';
 import 'package:money_management/screens/Home/homeScreen.dart';
+import 'package:money_management/screens/transactions/add-transactions.dart';
 
 void main() async {
   final obj1 = CategoryDB();
@@ -26,6 +27,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
       ),
       home: HomeScreen(title: 'Money Management App'),
+      routes: {
+        AddTransactions.routeName: ((context) =>
+         const AddTransactions()
+        )
+      },
     );
   }
 }
