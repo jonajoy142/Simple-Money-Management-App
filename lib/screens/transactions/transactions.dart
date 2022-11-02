@@ -25,23 +25,46 @@ class TransactionScreen extends StatelessWidget {
               itemBuilder: ((ctx, index) {
                 // ignore: prefer_const_constructors
                 print("fdfdfd");
-                return Card(
-                  elevation: 0,
-                  child: ListTile(
-                    // ignore prefer_const_constructors
-                    leading: CircleAvatar(
-                      backgroundColor: (newList[index].categoryType == 'Income'
-                          ? Colors.red
-                          : Colors.green),
-                      radius: 50,
-                      child: Text(
-                        parseDate(newList[index].date),
-                        textAlign: TextAlign.center,
+                return Stack(
+                  children: [
+
+                    Padding(padding: EdgeInsets.all(8),
+                    child: Column(
+                      children: [
+                        Text("Do you want to delete"),
+                        Row(
+                          children: [
+                            TextButton(onPressed: (){}, child: Text("Yes")),
+                            TextButton(onPressed: (){}, child: Text("Yes")),
+
+                          ],
+                        )
+                      ],
+                    ),
+                    ),
+
+                     Dismissible(
+                    key: key!,
+                    child: Card(
+                      elevation: 0,
+                      child: ListTile(
+                        // ignore prefer_const_constructors
+                        leading: CircleAvatar(
+                          backgroundColor: (newList[index].categoryType == 'Income'
+                              ? Colors.red
+                              : Colors.green),
+                          radius: 50,
+                          child: Text(
+                            parseDate(newList[index].date),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        title: Text("RS ${newList[index].amount}"),
+                        subtitle: Text(newList[index].category.name),
                       ),
                     ),
-                    title: Text("RS ${newList[index].amount}"),
-                    subtitle: Text(newList[index].category.name),
                   ),
+                  ],
                 );
               }),
               separatorBuilder: ((context, index) {
