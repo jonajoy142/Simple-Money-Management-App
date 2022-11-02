@@ -5,7 +5,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:money_management/database/category.dart';
 import 'package:date_format/date_format.dart';
+import 'package:money_management/database/transaction.dart';
 import 'package:money_management/models/category.dart';
+import 'package:money_management/models/transactions.dart';
 
 class AddTransactions extends StatefulWidget {
   static const routeName = 'add-transactions';
@@ -22,6 +24,8 @@ class _AddTransactionsState extends State<AddTransactions> {
   TextEditingController dateinput = TextEditingController();
   String? _categoryId;
 
+  final _purposeController = TextEditingController();
+  final _amountController = TextEditingController();
   ValueNotifier<String> selectedIndex = ValueNotifier('Income');
   TextEditingController _nameController = TextEditingController();
 
@@ -45,6 +49,7 @@ class _AddTransactionsState extends State<AddTransactions> {
             child: Column(
               children: [
                 TextFormField(
+                  controller: _purposeController,
                   decoration: InputDecoration(
                       hintText: "Purpose", border: OutlineInputBorder()),
                 ),
@@ -52,6 +57,7 @@ class _AddTransactionsState extends State<AddTransactions> {
                   height: 10,
                 ),
                 TextFormField(
+                  controller: _amountController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       hintText: 'Amount', border: OutlineInputBorder()),
@@ -150,6 +156,9 @@ class _AddTransactionsState extends State<AddTransactions> {
                       return DropdownMenuItem(
                         child: Text(e.name),
                         value: e.uid,
+                        onTap: (() {
+                          _selectedCategory = e;
+                        }),
                       );
                     }).toList(),
                     onChanged: (selectedValue) {
@@ -162,7 +171,9 @@ class _AddTransactionsState extends State<AddTransactions> {
                 ),
                 ElevatedButton.icon(
                   icon: Icon(Icons.check),
-                  onPressed: () {},
+                  onPressed: () {
+                    addTransactions();
+                  },
                   label: Text('Submit'),
                 )
               ],
@@ -171,5 +182,39 @@ class _AddTransactionsState extends State<AddTransactions> {
         ),
       ),
     );
+  }
+
+  Future<void> addTransactions() async {
+    final puproseText = _purposeController.text;
+    final amountText = _amountController.text;
+
+    if (puproseText.isEmpty) {
+      return;
+    }
+
+    if (amountText.isEmpty) {
+      return;
+    }
+    if (_categoryId == null) {
+      return;
+    }
+    if (amountText == null) {
+      return;
+    }
+    final parsedAmount = double.tryParse(amountText);
+    if (parsedAmount == null) return;
+    final _Tmodel = TransationModel(
+        amount: parsedAmount,
+        category: _selectedCategory!,
+        categoryType: _selectedcatType!,
+        date: _selectedDate,
+        purpose: puproseText);
+
+    TransactionDB.instance.insertTransactions(_Tmodel);
+    Navigator.of(context).pop();
+    _amountController.clear();
+    _purposeController.clear();
+    _selectedDate = DateTime.now();
+    _categoryId = null;
   }
 }

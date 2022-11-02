@@ -46,7 +46,7 @@ Future<void> openDilougeBox(BuildContext context) {
                   final _category = CategoryModel(
                       type: selectedIndex.value,
                       name: _name,
-                      uid: DateTime.now().microsecondsSinceEpoch.toString());
+                      );
                   CategoryDB.instance.insertCategory(_category);
                   Navigator.of(ctx).pop();
                   _nameController.clear();
